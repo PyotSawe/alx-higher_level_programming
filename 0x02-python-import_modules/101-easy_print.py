@@ -1,2 +1,2 @@
 #!/usr/bin/python3
-import jprint
+import jprint#use not os
