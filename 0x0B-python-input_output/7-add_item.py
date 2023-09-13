@@ -2,12 +2,9 @@
 
 """Saves All CMD_ARGS to file"""
 from sys import argv
-
+save_to_json_file = __import__('7-save_to_json_file').save_to_json_file
+load_from_json_file = __import__('8-load_from_json_file').load_from_json_file
 if __name__ == "__main__":
-    save_to_json_file = __import__('7-save_to_json_file').save_to_json_file
-    load_from_json_file = \
-        __import__('8-load_from_json_file').load_from_json_file
-
     filename = "add_item.json"
     try:
         my_items = load_from_json_file(filename)
