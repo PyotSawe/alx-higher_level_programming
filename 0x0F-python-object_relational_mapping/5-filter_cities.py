@@ -1,22 +1,29 @@
 #!/usr/bin/python3
-'''
-Lists all cities from the database hbtn_0e_4_usa.
-'''
-
-import MySQLdb
 from sys import argv
+import MySQLdb
 
-if __name__ == "__main__":
 
-    conn = MySQLdb.connect(host="localhost", port=3306, charset="utf8",
-                           user=argv[1], passwd=argv[2], db=argv[3])
-
-    cur = conn.cursor()
-    cur.execute("SELECT cities.id, cities.name, states.name FROM cities LEFT JOIN\
-            states ON cities.state_id = states.id WHERE states.name=%s\
-            ORDER by cities.id ASC;",
-                (argv[4], ))
+def sqlConection():
+    try:
+        db_connection = MySQLdb.connect(host="localhost", port=3306,
+                                        user=argv[1], password=argv[2],
+                                        db=argv[3], charset="utf8")
+    except Exception:
+        print("Can't connect to database")
+        return 0
+    cur = db_connection.cursor()
+    string = "SELECT c.name FROM cities AS c JOIN states AS s ON \
+            c.state_id=s.id WHERE s.name = '{name}' ORDER BY c.state_id ASC"
+    cur.execute(string.format(name=argv[4]))
     query_rows = cur.fetchall()
-    print(', '.join([row[1] for row in query_rows]))
+    for row in query_rows:
+        if row != query_rows[-1]:
+            print(row[0], end=", ")
+        else:
+            print(row[0], end="")
+    print()
     cur.close()
-    conn.close()
+    db_connection.close()
+
+
+sqlConection()
