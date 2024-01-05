@@ -1,15 +1,13 @@
 #!/usr/bin/node
-const axios = require('axios').default;
-const id = process.argv[2];
-const url = `https://swapi-api.hbtn.io/api/films/${id}`;
+const request = require('request');
+const ID = process.argv[2];
+const starWarsUri = `https://swapi-api.alx-tools.com/api/films/${ID}`;
+request(starWarsUri, function (_err, _res, body) {
+  const characters = JSON.parse(body).characters;
 
-axios.get(url)
-  .then(({ data }) => {
-    /* console.log(data.characters); */
-    data.characters.forEach((char) => {
-      axios.get(char)
-        .then(({ data }) => console.log(data.name))
-        .catch(err => console.log(err.message));
+  for (let i = 0; i < characters.length; ++i) {
+    request(characters[i], function (_cErr, _cRes, cBody) {
+      console.log(JSON.parse(cBody).name);
     });
-  })
-  .catch(err => console.log(err.message));
+  }
+});
