@@ -17,5 +17,7 @@
 * What are the arithmetic operators and how to use them
 * How to manipulate dictionary
 
+# 2024
+* Should refresh and update all knowledge
 * How to import a file
 
